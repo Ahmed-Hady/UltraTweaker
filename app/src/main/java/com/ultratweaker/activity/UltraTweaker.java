@@ -22,12 +22,14 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
     private ListPreference mGover;
     private SwitchPreference mSysLight;
     private SwitchPreference mArchPower;
+    private SwitchPreference mMSMHOTPLUG;
 
     /*Setting preference keys*/
     private static final String SELINUX = "selinux";
     private static final String GOVER = "gover";
     private static final String SYSLIGHT = "sysLight";
     private static final String ARCHPOWER = "arch_P";
+    private static final String MSMHOTPLUG = "msm_hp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,20 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             }else{
                 mArchPower.setEnabled(false);
             }
+
+            //MSM HotPlug
+            mMSMHOTPLUG = (SwitchPreference) findPreference(MSMHOTPLUG);
+            mMSMHOTPLUG.setOnPreferenceChangeListener(this);
+            if(new File("/sys/module/msm_hotplug/msm_enabled").exists()) {
+                if (CMDProcessor.runSuCommand("cat /sys/module/msm_hotplug/msm_enabled").getStdout().contains("1")) {
+                    mMSMHOTPLUG.setChecked(true);
+                } else {
+                    mMSMHOTPLUG.setChecked(false);
+                }
+            }else{
+                mMSMHOTPLUG.setEnabled(false);
+            }
+
         }
 
         @Override
@@ -123,6 +139,13 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                     CMDProcessor.runSuCommand("echo 1 > /sys/kernel/sched/arch_power");
                 } else if (newValue.toString().equals("false")) {
                     CMDProcessor.runSuCommand("echo 0 > /sys/kernel/sched/arch_power");
+                }
+                return true;
+            }else if (preference == mMSMHOTPLUG) {
+                if (newValue.toString().equals("true")) {
+                    CMDProcessor.runSuCommand("echo 1 > /sys/module/msm_hotplug/msm_enabled");
+                } else if (newValue.toString().equals("false")) {
+                    CMDProcessor.runSuCommand("echo 0 > /sys/module/msm_hotplug/msm_enabled");
                 }
                 return true;
             }
