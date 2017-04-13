@@ -31,13 +31,18 @@
                 android:summary="@string/dt2w_summary"
                 android:title="@string/dt2w_title" />
         </PreferenceCategory>
-        <PreferenceCategory android:title="Governors">
 
+        <PreferenceCategory android:title="@string/gover">
             <ListPreference
                 android:key="gover"
                 android:title="@string/gover_title"
                 android:entries="@array/gover"
-                android:entryValues="@array/gover_val"
-                />
+                android:entryValues="@array/gover_val" />
+        </PreferenceCategory>
+
+        <PreferenceCategory android:title="@string/others">
+            <SwitchPreference
+                android:key="selinux"
+                android:title="@string/selinux_title" />
         </PreferenceCategory>
 </PreferenceScreen>

@@ -29,6 +29,7 @@
     <string name="dt2w_summary">Dt2w feature helps you to wake your phone though double tapping on yor screen</string>
 
     <!-- Governor -->
+    <string name="gover">Governors</string>
     <string name="gover_title">Select Governor</string>
 
     <!-- Governors List -->
@@ -47,4 +48,12 @@
     <string name="userspace">UserSpace</string>
     <string name="powersave">PowerSave</string>
     <string name="performance">Performance</string>
+
+    <!-- Other Settings -->
+    <string name="others">Other Settings</string>
+
+    <!-- Selinux -->
+    <string name="selinux_title">Selinux</string>
+    <string name="selinux_enforcing_summary">Selinux is Enforcing</string>
+    <string name="selinux_permissive_summary">Selinux is Permissive</string>
 </resources>
