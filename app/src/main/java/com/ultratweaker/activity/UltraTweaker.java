@@ -111,6 +111,7 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             if(new File("/sys/module/msm_hotplug/msm_enabled").exists()) {
                 if (CMDProcessor.runSuCommand("cat /sys/module/msm_hotplug/msm_enabled").getStdout().contains("1")) {
                     mMSMHOTPLUG.setChecked(true);
+                    mALU.setChecked(false);
                 } else {
                     mMSMHOTPLUG.setChecked(false);
                 }
@@ -124,6 +125,7 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             if(new File("/sys/kernel/alucard_hotplug/hotplug_enable").exists()) {
                 if (CMDProcessor.runSuCommand("cat /sys/kernel/alucard_hotplug/hotplug_enable").getStdout().contains("1")) {
                     mALU.setChecked(true);
+                    mMSMHOTPLUG.setChecked(false);
                 } else {
                     mALU.setChecked(false);
                 }
@@ -171,7 +173,7 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                 }
                 return true;
             } else if (preference == mGover) {
-                CMDProcessor.runSuCommand("echo " + mGover.getValue().toString() + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+                CMDProcessor.runSuCommand("chmod 777 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor && echo " + mGover.getValue() + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor && chmod 644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
                 mGover.setSummary(CMDProcessor.runShellCommand("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").getStdout());
                 return true;
             } else if (preference == mSysLight) {
