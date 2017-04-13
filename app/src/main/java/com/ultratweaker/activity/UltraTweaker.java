@@ -76,8 +76,7 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                     mSelinux.setSummary(R.string.selinux_permissive_summary);
                 }
                 return true;
-            }
-            if (preference == mGover) {
+            } else if (preference == mGover) {
                 CMDProcessor.runSuCommand("echo " + mGover.getValue().toString() + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
                 mGover.setSummary(CMDProcessor.runShellCommand("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").getStdout());
                 return true;
