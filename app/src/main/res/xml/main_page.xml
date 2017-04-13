@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
+        <PreferenceCategory android:title="@string/genTweak">
+            <SwitchPreference
+                android:id="@+id/sysLight"
+                android:key="sysLight"
+                android:summary="@string/sysLight_summary"
+                android:title="@string/sysLight_title" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="@string/kerTweak">
+            <SwitchPreference
+                android:key="arch_P"
+                android:summary="@string/arch_summary"
+                android:title="@string/arch_title"
+                android:visibility="visible" />
+            <SwitchPreference
+                android:key="msm_hp"
+                android:summary="@string/msmHP_summary"
+                android:title="@string/msmHP_title" />
+            <SwitchPreference
+                android:key="alu"
+                android:summary="@string/alu_summary"
+                android:title="@string/alu_title" />
+            <SwitchPreference
+                android:key="usbFC"
+                android:summary="@string/usbFC_summary"
+                android:title="@string/usbFC_title" />
+            <SwitchPreference
+                android:key="dt2w"
+                android:summary="@string/dt2w_summary"
+                android:title="@string/dt2w_title" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Governors">
+
+            <ListPreference
+                android:key="gover"
+                android:title="@string/gover_title"
+                android:entries="@array/gover"
+                android:entryValues="@array/gover_val"
+                />
+        </PreferenceCategory>
+</PreferenceScreen>

@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">UltraTweaker</string>
+
+    <string name="genTweak">General Tweaks</string>
+    <string name="kerTweak">Kernel Tweaks</string>
+
+    <!-- System Lights -->
+    <string name="sysLight_title">System Led</string>
+    <string name="sysLight_summary">Turn the System Led light On/Off</string>
+
+    <!-- ARCH Power -->
+    <string name="arch_title">ARCH Power</string>
+    <string name="arch_summary">Switch ARCH Power Kernel feature On/Off</string>
+
+    <!-- MSM Hotplug -->
+    <string name="msmHP_title">MSM Hotplug</string>
+    <string name="msmHP_summary">Switch MSM HotPlug Kernel feature On/Off</string>
+
+    <!-- AluCard HotPlug -->
+    <string name="alu_title">AluCard HotPlug</string>
+    <string name="alu_summary">Switch AluCard HotPlug Kernel feature On/Off</string>
+
+    <!-- Usb Fast Charge -->
+    <string name="usbFC_title">Usb Fast Charge</string>
+    <string name="usbFC_summary">USB Fast charging feature enable you to charge your phone fast through USB port</string>
+
+    <!-- Double tap to Wake -->
+    <string name="dt2w_title">Double tap to Wake</string>
+    <string name="dt2w_summary">Dt2w feature helps you to wake your phone though double tapping on yor screen</string>
+
+    <!-- Governor -->
+    <string name="gover_title">Select Governor</string>
+
+    <!-- Governors List -->
+    <string name="smartmax">SmartMax</string>
+    <string name="lionfish">LionFish</string>
+    <string name="chil">Chil</string>
+    <string name="darkness">Darkness</string>
+    <string name="zzmoove">zzMoove</string>
+    <string name="wheatley">Wheatley</string>
+    <string name="impulse">Impulse</string>
+    <string name="intelliactive">IntelliActive</string>
+    <string name="interactive_pro">Interactive_Pro</string>
+    <string name="interactive">Interactive</string>
+    <string name="ondemand">onDemand</string>
+    <string name="conservative">Conservative</string>
+    <string name="userspace">UserSpace</string>
+    <string name="powersave">PowerSave</string>
+    <string name="performance">Performance</string>
 </resources>

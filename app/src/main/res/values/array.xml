@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Governors List -->
+    <string-array name="gover">
+        <item>@string/smartmax</item>
+        <item>@string/lionfish</item>
+        <item>@string/chil</item>
+        <item>@string/darkness</item>
+        <item>@string/zzmoove</item>
+        <item>@string/wheatley</item>
+        <item>@string/impulse</item>
+        <item>@string/intelliactive</item>
+        <item>@string/interactive_pro</item>
+        <item>@string/interactive</item>
+        <item>@string/ondemand</item>
+        <item>@string/conservative</item>
+        <item>@string/userspace</item>
+        <item>@string/powersave</item>
+        <item>@string/performance</item>
+    </string-array>
+
+    <string-array name="gover_val">
+        <item>smartmax</item>
+        <item>lionfish</item>
+        <item>chil</item>
+        <item>darkness</item>
+        <item>zzMoove</item>
+        <item>wheatley</item>
+        <item>impulse</item>
+        <item>intelliactive</item>
+        <item>interactive_pro</item>
+        <item>interactive</item>
+        <item>ondemand</item>
+        <item>conservative</item>
+        <item>userspace</item>
+        <item>powersave</item>
+        <item>performance</item>
+    </string-array>
+</resources>

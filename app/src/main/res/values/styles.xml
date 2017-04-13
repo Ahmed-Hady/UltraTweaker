@@ -1,11 +1,4 @@
-<resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <style name="settings" parent="@android:style/Theme.Material.Settings">
     </style>
-
 </resources>
