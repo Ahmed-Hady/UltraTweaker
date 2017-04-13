@@ -23,6 +23,8 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
     private SwitchPreference mSysLight;
     private SwitchPreference mArchPower;
     private SwitchPreference mMSMHOTPLUG;
+    private SwitchPreference mALU;
+    private SwitchPreference mUSBFC;
 
     /*Setting preference keys*/
     private static final String SELINUX = "selinux";
@@ -30,6 +32,8 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
     private static final String SYSLIGHT = "sysLight";
     private static final String ARCHPOWER = "arch_P";
     private static final String MSMHOTPLUG = "msm_hp";
+    private static final String ALUHOTPLUG = "alu";
+    private static final String USBFC = "usbFC";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +114,32 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                 mMSMHOTPLUG.setEnabled(false);
             }
 
+            //Alu HotPlug
+            mALU = (SwitchPreference) findPreference(ALUHOTPLUG);
+            mALU.setOnPreferenceChangeListener(this);
+            if(new File("/sys/kernel/alucard_hotplug/hotplug_enable").exists()) {
+                if (CMDProcessor.runSuCommand("cat /sys/kernel/alucard_hotplug/hotplug_enable").getStdout().contains("1")) {
+                    mALU.setChecked(true);
+                } else {
+                    mALU.setChecked(false);
+                }
+            }else{
+                mALU.setEnabled(false);
+            }
+
+            //USB Fast Charge
+            mUSBFC = (SwitchPreference) findPreference(USBFC);
+            mUSBFC.setOnPreferenceChangeListener(this);
+            if(new File("/sys/kernel/fast_charge/force_fast_charge").exists()) {
+                if (CMDProcessor.runSuCommand("cat /sys/kernel/fast_charge/force_fast_charge").getStdout().contains("1")) {
+                    mUSBFC.setChecked(true);
+                } else {
+                    mUSBFC.setChecked(false);
+                }
+            }else{
+                mUSBFC.setEnabled(false);
+            }
+
         }
 
         @Override
@@ -144,8 +174,26 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             }else if (preference == mMSMHOTPLUG) {
                 if (newValue.toString().equals("true")) {
                     CMDProcessor.runSuCommand("echo 1 > /sys/module/msm_hotplug/msm_enabled");
+                    mALU.setEnabled(false);
                 } else if (newValue.toString().equals("false")) {
                     CMDProcessor.runSuCommand("echo 0 > /sys/module/msm_hotplug/msm_enabled");
+                    mALU.setEnabled(true);
+                }
+                return true;
+            }else if (preference == mALU) {
+                if (newValue.toString().equals("true")) {
+                    CMDProcessor.runSuCommand("echo 1 > /sys/kernel/alucard_hotplug/hotplug_enable");
+                    mMSMHOTPLUG.setEnabled(false);
+                } else if (newValue.toString().equals("false")) {
+                    CMDProcessor.runSuCommand("echo 0 > /sys/kernel/alucard_hotplug/hotplug_enable");
+                    mMSMHOTPLUG.setEnabled(true);
+                }
+                return true;
+            }else if (preference == mUSBFC) {
+                if (newValue.toString().equals("true")) {
+                    CMDProcessor.runSuCommand("echo 1 > /sys/kernel/fast_charge/force_fast_charge");
+                } else if (newValue.toString().equals("false")) {
+                    CMDProcessor.runSuCommand("echo 0 > /sys/kernel/fast_charge/force_fast_charge");
                 }
                 return true;
             }
