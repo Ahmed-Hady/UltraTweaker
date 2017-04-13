@@ -3,6 +3,7 @@ package com.ultratweaker.activity;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -13,8 +14,13 @@ import com.ultratweaker.R;
 import com.ultratweaker.utils.du.CMDProcessor;
 
 public class UltraTweaker extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
+
     private SwitchPreference mSelinux;
+    private ListPreference mGover;
+
     private static final String SELINUX = "selinux";
+    private static final String GOVER = "gover";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +58,11 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                 mSelinux.setChecked(false);
                 mSelinux.setSummary(R.string.selinux_permissive_summary);
             }
+
+            //Governors
+            mGover = (ListPreference) findPreference(GOVER);
+            mGover.setOnPreferenceChangeListener(this);
+            mGover.setSummary(CMDProcessor.runShellCommand("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").getStdout());
         }
 
         @Override
@@ -64,6 +75,11 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                     CMDProcessor.runSuCommand("setenforce 0");
                     mSelinux.setSummary(R.string.selinux_permissive_summary);
                 }
+                return true;
+            }
+            if (preference == mGover) {
+                CMDProcessor.runSuCommand("echo " + mGover.getValue().toString() + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+                mGover.setSummary(CMDProcessor.runShellCommand("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").getStdout());
                 return true;
             }
             return false;
