@@ -15,11 +15,17 @@ import com.ultratweaker.utils.du.CMDProcessor;
 
 public class UltraTweaker extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
+    /* Setting Objects*/
     private SwitchPreference mSelinux;
     private ListPreference mGover;
+    private SwitchPreference mSysLight;
+    private SwitchPreference mArchPower;
 
+    /*Setting preference keys*/
     private static final String SELINUX = "selinux";
     private static final String GOVER = "gover";
+    private static final String SYSLIGHT = "sysLight";
+    private static final String ARCHPOWER = "arch_P";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,16 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             mGover = (ListPreference) findPreference(GOVER);
             mGover.setOnPreferenceChangeListener(this);
             mGover.setSummary(CMDProcessor.runShellCommand("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").getStdout());
+
+            //System Light
+            mSysLight = (SwitchPreference) findPreference(SYSLIGHT);
+            mSysLight.setOnPreferenceChangeListener(this);
+
+            if (CMDProcessor.runSuCommand("cat /sys/class/leds/charging/max_brightness").getStdout().contains("255")) {
+                mSysLight.setChecked(true);
+            } else {
+                mSysLight.setChecked(false);
+            }
         }
 
         @Override
@@ -79,6 +95,13 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             } else if (preference == mGover) {
                 CMDProcessor.runSuCommand("echo " + mGover.getValue().toString() + " > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
                 mGover.setSummary(CMDProcessor.runShellCommand("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor").getStdout());
+                return true;
+            } else if (preference == mSysLight) {
+                if (newValue.toString().equals("true")) {
+                    CMDProcessor.runSuCommand("echo 255 > /sys/class/leds/charging/max_brightness");
+                } else if (newValue.toString().equals("false")) {
+                    CMDProcessor.runSuCommand("echo 0 > /sys/class/leds/charging/max_brightness");
+                }
                 return true;
             }
             return false;
