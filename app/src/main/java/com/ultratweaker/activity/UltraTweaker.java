@@ -15,6 +15,8 @@ import com.ultratweaker.utils.du.CMDProcessor;
 
 import java.io.File;
 
+import static com.ultratweaker.utils.config.TPanel;
+
 public class UltraTweaker extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     /* Setting Objects*/
@@ -25,6 +27,7 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
     private SwitchPreference mMSMHOTPLUG;
     private SwitchPreference mALU;
     private SwitchPreference mUSBFC;
+    private SwitchPreference mdt2w;
 
     /*Setting preference keys*/
     private static final String SELINUX = "selinux";
@@ -34,6 +37,7 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
     private static final String MSMHOTPLUG = "msm_hp";
     private static final String ALUHOTPLUG = "alu";
     private static final String USBFC = "usbFC";
+    private static final String Dt2w = "dt2w";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +144,19 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                 mUSBFC.setEnabled(false);
             }
 
+            //dt2w
+            mdt2w = (SwitchPreference) findPreference(Dt2w);
+            mdt2w.setOnPreferenceChangeListener(this);
+            if(TPanel().toString() != null) {
+                if (CMDProcessor.runSuCommand("cat " + TPanel().toString()).getStdout().contains("1")) {
+                    mdt2w.setChecked(true);
+                } else {
+                    mdt2w.setChecked(false);
+                }
+            }else{
+                mdt2w.setEnabled(false);
+            }
+
         }
 
         @Override
@@ -194,6 +211,13 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                     CMDProcessor.runSuCommand("echo 1 > /sys/kernel/fast_charge/force_fast_charge");
                 } else if (newValue.toString().equals("false")) {
                     CMDProcessor.runSuCommand("echo 0 > /sys/kernel/fast_charge/force_fast_charge");
+                }
+                return true;
+            }else if (preference == mdt2w) {
+                if (newValue.toString().equals("true")) {
+                    CMDProcessor.runSuCommand("echo 1 > " + TPanel().toString());
+                } else if (newValue.toString().equals("false")) {
+                    CMDProcessor.runSuCommand("echo 0 > " + TPanel().toString());
                 }
                 return true;
             }
