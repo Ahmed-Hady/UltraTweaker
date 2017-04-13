@@ -13,6 +13,8 @@ import android.preference.SwitchPreference;
 import com.ultratweaker.R;
 import com.ultratweaker.utils.du.CMDProcessor;
 
+import java.io.File;
+
 public class UltraTweaker extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
     /* Setting Objects*/
@@ -79,6 +81,19 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
             } else {
                 mSysLight.setChecked(false);
             }
+
+            //ARCH Power
+            mArchPower = (SwitchPreference) findPreference(ARCHPOWER);
+            mArchPower.setOnPreferenceChangeListener(this);
+            if(new File("/sys/kernel/sched/arch_power").exists()) {
+                if (CMDProcessor.runSuCommand("cat /sys/kernel/sched/arch_power").getStdout().contains("1")) {
+                    mArchPower.setChecked(true);
+                } else {
+                    mArchPower.setChecked(false);
+                }
+            }else{
+                mArchPower.setEnabled(false);
+            }
         }
 
         @Override
@@ -101,6 +116,13 @@ public class UltraTweaker extends PreferenceActivity implements Preference.OnPre
                     CMDProcessor.runSuCommand("echo 255 > /sys/class/leds/charging/max_brightness");
                 } else if (newValue.toString().equals("false")) {
                     CMDProcessor.runSuCommand("echo 0 > /sys/class/leds/charging/max_brightness");
+                }
+                return true;
+            }else if (preference == mArchPower) {
+                if (newValue.toString().equals("true")) {
+                    CMDProcessor.runSuCommand("echo 1 > /sys/kernel/sched/arch_power");
+                } else if (newValue.toString().equals("false")) {
+                    CMDProcessor.runSuCommand("echo 0 > /sys/kernel/sched/arch_power");
                 }
                 return true;
             }
